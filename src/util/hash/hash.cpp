@@ -14,11 +14,11 @@
 void Sha1_Compute(const char *value, size_t len, Sha1* output) {
   boost::uuids::detail::sha1 sha1;
   sha1.process_bytes(value, len);
-#if BOOST_VERSION >= 108800
-  // Boost 1.88+: digest_type is unsigned char[20], stored as big-endian bytes.
+#if BOOST_VERSION >= 108600
+  // Boost 1.86+: digest_type is unsigned char[20], stored as big-endian bytes.
   sha1.get_digest(output->hash);
 #else
-  // Boost < 1.88: digest_type is unsigned int[5] (host-endian words).
+  // Boost < 1.86: digest_type is unsigned int[5] (host-endian words).
   // Convert each 32-bit word to big-endian bytes to match the layout
   // expected by Sha1_FormatIntoBuffer.
   boost::uuids::detail::sha1::digest_type digest;
